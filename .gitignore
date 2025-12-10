@@ -1,0 +1,221 @@
+# Finimus Grabber - Git Ignore
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# .NET / C#
+*.dll
+*.exe
+*.pdb
+*.cache
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+build/
+out/
+
+# C++ / Native
+*.o
+*.obj
+*.ilk
+*.pdb
+*.idb
+*.pch
+*.exp
+*.lib
+*.dll
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+*.dSYM/
+*.su
+*.idb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+
+# vcpkg
+vcpkg_installed/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+
+# Test Coverage
+*.coverage
+*.coveragexml
+coverage/
+TestResults/
+*.testlog
+
+# Profiling
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.dmp
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+~$*
+
+# Audio test files (optional - uncomment if test files are large)
+# examples/*.mp3
+# examples/*.wav
+# examples/*.flac
+
+# Application-specific
+*.mid
+*.midi
+exported/
+output/
+
+# macOS (if cross-platform work)
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux (if cross-platform work)
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Documentation build outputs
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# IDE specific files
+*.swp
+*.swo
+*~
+
+# Package manager
+node_modules/
+bower_components/
+
+# Other
+*.stackdump
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
