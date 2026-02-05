@@ -17,8 +17,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private readonly AudioLoader _audioLoader;
     private readonly AnalysisEngine _analysisEngine;
     private readonly MidiExporter _midiExporter;
+    private readonly NoiseSuppressionService _noiseSuppressionService;
+    private readonly MusicSeparationService _musicSeparationService;
     
     private AudioData? _currentAudio;
+    private AudioData? _originalAudio; // Store original for reset
     private List<Note> _detectedNotes = new();
     private bool _isAutomaticMode = true;
     private List<Note> _manualNotes = new();
@@ -31,6 +34,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         _audioLoader = new AudioLoader();
         _analysisEngine = new AnalysisEngine();
         _midiExporter = new MidiExporter();
+        _noiseSuppressionService = new NoiseSuppressionService();
+        _musicSeparationService = new MusicSeparationService();
 
         UpdateUI();
     }
@@ -89,6 +94,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             {
                 StatusMessage = "Loading audio...";
                 _currentAudio = await Task.Run(() => _audioLoader.LoadFile(openFileDialog.FileName));
+                _originalAudio = CloneAudioData(_currentAudio); // Save original
                 
                 DrawWaveform();
                 
@@ -201,7 +207,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void About_Click(object sender, RoutedEventArgs e)
     {
         var aboutMessage = @"Finimus Grabber
-Version 1.0
+Version 2.0 - AI Edition
 
 Created by Finimus
 
@@ -210,7 +216,14 @@ Musician (violin, piano, guitar) and technologist combining musical creativity w
 This application makes music analysis easier and more intelligent through:
 • Automatic note detection using AI-powered analysis
 • Manual editing with visual feedback and precision control
+• AI audio processing (vocal/drum isolation, noise suppression)
+• Music stem separation inspired by OpenVINO AI Plugins
 • Professional MIDI export for use in any DAW
+
+New AI Features:
+🎤 Isolate Vocals - Extract vocal tracks
+🥁 Isolate Drums - Separate percussion
+🔇 Remove Noise - Spectral noise suppression
 
 GitHub: https://github.com/Finimus
 
@@ -325,5 +338,125 @@ Designed for beginners to professional producers.";
         OnPropertyChanged(nameof(EmptyStateVisibility));
         OnPropertyChanged(nameof(FileInfo));
         OnPropertyChanged(nameof(NotesInfo));
+    }
+
+    // AI Processing Methods
+
+    private async void IsolateVocals_Click(object sender, RoutedEventArgs e)
+    {
+        await ProcessWithAI("vocals", "Isolating vocals...");
+    }
+
+    private async void IsolateDrums_Click(object sender, RoutedEventArgs e)
+    {
+        await ProcessWithAI("drums", "Isolating drums...");
+    }
+
+    private async void RemoveNoise_Click(object sender, RoutedEventArgs e)
+    {
+        await ProcessWithAI("denoise", "Removing noise...");
+    }
+
+    private void ResetAudio_Click(object sender, RoutedEventArgs e)
+    {
+        if (_originalAudio != null)
+        {
+            _currentAudio = CloneAudioData(_originalAudio);
+            DrawWaveform();
+            StatusMessage = "Audio reset to original";
+            
+            // Clear notes as they may not be valid anymore
+            _detectedNotes.Clear();
+            _manualNotes.Clear();
+            DrawPianoRoll();
+            UpdateUI();
+        }
+    }
+
+    private async Task ProcessWithAI(string processType, string statusText)
+    {
+        if (_currentAudio == null) return;
+
+        try
+        {
+            StatusMessage = statusText;
+            var originalStatus = StatusMessage;
+            
+            // Disable all buttons during processing
+            IsEnabled = false;
+
+            AudioData processed;
+            
+            switch (processType)
+            {
+                case "vocals":
+                    processed = await Task.Run(() => 
+                        _musicSeparationService.ExtractStem(
+                            _currentAudio, 
+                            MusicSeparationService.StemType.Vocals,
+                            progress => Dispatcher.Invoke(() => StatusMessage = $"{statusText} {progress:P0}")
+                        ));
+                    break;
+                    
+                case "drums":
+                    processed = await Task.Run(() => 
+                        _musicSeparationService.ExtractStem(
+                            _currentAudio, 
+                            MusicSeparationService.StemType.Drums,
+                            progress => Dispatcher.Invoke(() => StatusMessage = $"{statusText} {progress:P0}")
+                        ));
+                    break;
+                    
+                case "denoise":
+                    processed = await Task.Run(() => 
+                        _noiseSuppressionService.SuppressNoise(
+                            _currentAudio,
+                            progress => Dispatcher.Invoke(() => StatusMessage = $"{statusText} {progress:P0}")
+                        ));
+                    break;
+                    
+                default:
+                    throw new ArgumentException($"Unknown process type: {processType}");
+            }
+
+            _currentAudio = processed;
+            DrawWaveform();
+            
+            // Clear notes as they may not be valid anymore
+            _detectedNotes.Clear();
+            _manualNotes.Clear();
+            DrawPianoRoll();
+            
+            StatusMessage = processType switch
+            {
+                "vocals" => "Vocals isolated! Click Analyze to detect notes.",
+                "drums" => "Drums isolated! Click Analyze to detect notes.",
+                "denoise" => "Noise removed! Click Analyze to detect notes.",
+                _ => "Processing complete!"
+            };
+            
+            UpdateUI();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error during AI processing: {ex.Message}", "Error", 
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            StatusMessage = "Processing failed";
+        }
+        finally
+        {
+            IsEnabled = true;
+        }
+    }
+
+    private AudioData CloneAudioData(AudioData source)
+    {
+        return new AudioData
+        {
+            Samples = (float[])source.Samples.Clone(),
+            SampleRate = source.SampleRate,
+            Channels = source.Channels,
+            FilePath = source.FilePath
+        };
     }
 }

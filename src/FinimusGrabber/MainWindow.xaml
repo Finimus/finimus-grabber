@@ -47,6 +47,22 @@
             
             <Button Content="Analyze" Click="Analyze_Click" Padding="10,5" Margin="0,0,10,0" 
                     IsEnabled="{Binding HasAudio}" x:Name="AnalyzeButton"/>
+            
+            <!-- AI Processing Tools -->
+            <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="3" Padding="5" Margin="0,0,10,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="AI Tools:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <Button Content="🎤 Isolate Vocals" Click="IsolateVocals_Click" Padding="8,5" Margin="0,0,5,0" 
+                            IsEnabled="{Binding HasAudio}" ToolTip="Extract vocals from audio"/>
+                    <Button Content="🥁 Isolate Drums" Click="IsolateDrums_Click" Padding="8,5" Margin="0,0,5,0" 
+                            IsEnabled="{Binding HasAudio}" ToolTip="Extract drums from audio"/>
+                    <Button Content="🔇 Remove Noise" Click="RemoveNoise_Click" Padding="8,5" Margin="0,0,5,0" 
+                            IsEnabled="{Binding HasAudio}" ToolTip="Suppress background noise"/>
+                    <Button Content="↻ Reset" Click="ResetAudio_Click" Padding="8,5" 
+                            IsEnabled="{Binding HasAudio}" ToolTip="Restore original audio"/>
+                </StackPanel>
+            </Border>
+            
             <Button Content="Export MIDI" Click="ExportMidi_Click" Padding="10,5" 
                     IsEnabled="{Binding HasNotes}"/>
                     

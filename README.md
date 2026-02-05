@@ -19,6 +19,26 @@ Finimus Grabber is a standalone Windows desktop application that transforms audi
 - 💾 Standard MIDI file export (Type 0 & Type 1)
 - ⚡ Optimized for low CPU usage and fast processing
 - 🔒 100% offline functionality with no telemetry
+- 🤖 **NEW**: AI-powered audio processing (vocal/drum isolation, noise suppression)
+- 🎶 **NEW**: Music stem separation inspired by OpenVINO AI Plugins
+
+## AI Audio Processing 🆕
+
+Inspired by [OpenVINO AI Plugins for Audacity](https://github.com/intel/openvino-plugins-ai-audacity), Finimus Grabber now includes powerful audio preprocessing features:
+
+### 🎤 Vocal Isolation
+Extract vocal tracks from mixed audio for cleaner melody detection. Uses frequency-based filtering (80Hz-8kHz) with FFT analysis.
+
+### 🥁 Drum Isolation
+Separate percussive elements for rhythm analysis. Emphasizes transients using temporal variation detection in the spectrogram.
+
+### 🔇 Noise Suppression
+Remove background noise and hiss using spectral gating. Analyzes the first 0.5 seconds to create a noise profile and applies frequency-dependent gain reduction.
+
+### ↻ Reset to Original
+Instantly restore the original audio without reloading the file.
+
+**See [AI Features Documentation](docs/AI_FEATURES.md) for technical details.**
 
 ## Use Cases
 
@@ -63,18 +83,22 @@ finimus-grabber/
 
 ## Documentation
 
+- [**Build and Run Guide**](BUILD_AND_RUN.md) – Quick start instructions
+- [**AI Features**](docs/AI_FEATURES.md) – AI audio processing documentation
 - [**App Description**](docs/APP_DESCRIPTION.md) – Detailed feature overview and use cases
 - [**Development Setup**](docs/DEVELOPMENT.md) – Build instructions and development environment
 - [**Architecture**](docs/ARCHITECTURE.md) – Technical design and implementation details
 
 ## Development Status
 
-This project is currently in active development. The application is being designed with the following technologies:
+**Version 2.0 - AI Edition** is now available! The application uses:
 
-- **Language:** C++ or C# (.NET)
-- **Audio Processing:** FFT libraries, DSP algorithms
-- **UI Framework:** WPF, WinForms, or native Win32
-- **Build System:** Visual Studio 2022
+- **Language:** C# (.NET 10.0)
+- **UI Framework:** WPF (Windows Presentation Foundation)
+- **Audio Processing:** NAudio library with custom DSP algorithms
+- **AI Processing:** Custom FFT-based algorithms inspired by OpenVINO
+- **ONNX Runtime:** Ready for AI model integration
+- **Build System:** .NET SDK / Visual Studio 2022
 
 ## License
 
