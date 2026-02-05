@@ -4,7 +4,13 @@
 
 ![Platform](https://img.shields.io/badge/platform-Windows-blue)
 ![License](https://img.shields.io/badge/license-Proprietary-red)
-![Status](https://img.shields.io/badge/status-In%20Development-yellow)
+![Version](https://img.shields.io/badge/version-2.0.0-green)
+
+## ⬇️ Download
+
+**[Download Finimus Grabber v2.0.0](https://github.com/Finimus/finimus-grabber/releases/download/v2.0.0/FinimusGrabber-v2.0.0-win-x64.zip)** (Windows x64)
+
+Extract the ZIP and run `FinimusGrabber.exe` - no installation needed!
 
 ## About
 
@@ -93,7 +99,7 @@ finimus-grabber/
 
 **Version 2.0 - AI Edition** is now available! The application uses:
 
-- **Language:** C# (.NET 10.0)
+- **Language:** C# (.NET 8.0)
 - **UI Framework:** WPF (Windows Presentation Foundation)
 - **Audio Processing:** NAudio library with custom DSP algorithms
 - **AI Processing:** Custom FFT-based algorithms inspired by OpenVINO

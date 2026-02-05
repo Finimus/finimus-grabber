@@ -219,3 +219,8 @@ logs/
 *.pid
 *.seed
 *.pid.lock
+
+# Release artifacts
+release/
+*.zip
+New Text Document.txt
